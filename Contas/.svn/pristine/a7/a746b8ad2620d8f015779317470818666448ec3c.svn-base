@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SQLite;
+using System.IO;
+
+namespace Contas
+{
+    public class DBSqlite
+    {
+        public static void CriarBanco()
+        {
+            if (!File.Exists("Banco.db3"))
+            {
+                SQLiteConnection.CreateFile("Banco.db3");
+                SQLiteConnection conn = new SQLiteConnection("Data Source=Banco.db3");
+                if (conn.State == System.Data.ConnectionState.Closed)
+                {
+                    conn.Open();
+                }
+
+                //Criar tabela de contas
+                StringBuilder sql = new StringBuilder();
+                sql.AppendLine("CREATE TABLE PAGAR([ID] INTEGER PRIMARY KEY,[DESCRICAO] NVARCHAR(200),");
+                sql.AppendLine("[COMPRA] DATE, [VENCIMENTO] DATE, [PARCELA] INTEGER, [VALOR] DECIMAL(18,2), [TOTAL] DECIMAL(18,2))");                
+                SQLiteCommand cmd = new SQLiteCommand(sql.ToString(),conn);
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Erro ao criar: "+ex.Message);
+                }
+            }
+        }
+    }
+}

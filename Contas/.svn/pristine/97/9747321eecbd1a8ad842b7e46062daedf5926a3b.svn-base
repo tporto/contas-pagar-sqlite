@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Contas
+{
+    public partial class frmPrincipal : Form
+    {
+        private List<Parcelas> listaParcelas;
+
+        public frmPrincipal()
+        {
+            InitializeComponent();
+        }
+
+        private void frmPrincipal_Load(object sender, EventArgs e)
+        {
+            DBSqlite.CriarBanco();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                listaParcelas        = new List<Parcelas>();
+                decimal valorParcela = (Convert.ToDecimal(txtValor.Text)) / Convert.ToInt32(txtQtdeParcelas.Text);
+                DateTime dataEmissao = Convert.ToDateTime(txtDataEmissao.Text);
+
+                for (int i = 0; i < Convert.ToInt32(txtQtdeParcelas.Text); i++)
+                {
+                    Parcelas parcela     = new Parcelas();
+                    parcela.dtcompra     = dataEmissao;
+                    parcela.dtvencimento = dataEmissao.AddMonths(i);
+                    parcela.nparcela     = i + 1;
+                    parcela.vlrparcela   = Truncar(valorParcela);
+                    parcela.descricao    = txtDescricao.Text;
+                    parcela.vlrtotal     = Convert.ToDecimal(txtValor.Text);
+                    parcela.qtdeparcelas = Convert.ToInt32(txtQtdeParcelas.Text);                     
+                    listaParcelas.Add(parcela);
+                }
+                dataGridView1.DataSource = listaParcelas;
+                MessageBox.Show("Parcela(s) gerada(s) com sucesso!");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static decimal Truncar(decimal valor)
+        {
+            valor *= 100;
+            valor = Math.Truncate(valor);
+            valor /= 100;
+            return valor;
+        }
+    }
+}

@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Contas
+{
+    public class Documentos
+    {
+
+    }
+
+    public class Parcelas
+    {
+        public string descricao      { get; set; }
+        public int nparcela          { get; set; }
+        public DateTime dtvencimento { get; set; }
+        public decimal vlrparcela    { get; set; }
+        public int qtdeparcelas      { get; set; }
+        public decimal vlrtotal      { get; set; }
+        public DateTime dtcompra     { get; set; }
+    }
+}
