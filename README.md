@@ -1,4 +1,4 @@
-Contas Pagar com Sqlite e C#
+Contas a Pagar com Sqlite e C#
 ==========================
 <b>Tecnologias</b>
 <ul>
